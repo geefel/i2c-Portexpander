@@ -2,7 +2,7 @@
 
 CPATH += -I/usr/lib/avr/include
 
-SOURCES=main.c i2c-host.c printS.c uart_hard.c 
+SOURCES=main.c i2c-host.c MCP23017.c printS.c uart_hard.c 
 TARGET=def
 
 MCU=atmega328p
