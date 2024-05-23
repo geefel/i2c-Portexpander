@@ -147,47 +147,55 @@
 #define		MIRROR	6
 #define		BANK	7
 
+enum regData {
+    IODIRA = 0,
+    IODIRB,
+    IPOLA,
+    IPOLB,
+    GPINTENA,
+    GPINTENB,
+    DEFVALA,
+    DEFVALB,
+    INTCONA,
+    INTCONB,
+    IOCON,
+    GPPUA,
+    GPPUB,
+    INTFA,
+    INTFB,
+    INTCAPA,
+    INTCAPB,
+    GPIOA,
+    GPIOB,
+    OLATA,
+    OLATB
+};
 
 void setupMCP23N17(uint8_t bnk);
 
-void set_I_O_DIRECTION_REGISTER_A(uint8_t adr, uint8_t pinSet);
-void set_I_O_DIRECTION_REGISTER_B(uint8_t adr, uint8_t pinSet);
-uint8_t get_I_O_DIRECTION_REGISTER_A(uint8_t adr);
-uint8_t get_I_O_DIRECTION_REGISTER_B(uint8_t adr);
-void set_INPUT_POLARITY_REGISTER_A(uint8_t adr, uint8_t pinSet);
-void set_INPUT_POLARITY_REGISTER_B(uint8_t adr, uint8_t pinSet);
-uint8_t get_INPUT_POLARITY_REGISTER_A(uint8_t adr);
-uint8_t get_INPUT_POLARITY_REGISTER_B(uint8_t adr);
-void set_INTERRUPT_ON_CHANGE_PINS_A(uint8_t adr, uint8_t pinSet);
-void set_INTERRUPT_ON_CHANGE_PINS_B(uint8_t adr, uint8_t pinSet);
-uint8_t get_INTERRUPT_ON_CHANGE_PINS_A(uint8_t adr);
-uint8_t get_INTERRUPT_ON_CHANGE_PINS_B(uint8_t adr);
-void set_DEFAULT_VALUE_REGISTER_A(uint8_t adr, uint8_t pinSet);
-void set_DEFAULT_VALUE_REGISTER_B(uint8_t adr, uint8_t pinSet);
-uint8_t get_DEFAULT_VALUE_REGISTER_A(uint8_t adr);
-uint8_t get_DEFAULT_VALUE_REGISTER_B(uint8_t adr);
-void set_INTERRUPT_ON_CHANGE_CONTROL_REGISTER_A(uint8_t adr, uint8_t pinSet);
-void set_INTERRUPT_ON_CHANGE_CONTROL_REGISTER_B(uint8_t adr, uint8_t pinSet);
-uint8_t get_INTERRUPT_ON_CHANGE_CONTROL_REGISTER_A(uint8_t adr);
-uint8_t get_INTERRUPT_ON_CHANGE_CONTROL_REGISTER_B(uint8_t adr);
-void set_I_O_EXPANDER_CONFIGURATION_REGISTER(uint8_t adr, uint8_t configPins);
-uint8_t get_I_O_EXPANDER_CONFIGURATION_REGISTER(uint8_t adr);
-void set_GPIO_PULL_UP_RESISTOR_REGISTER_A(uint8_t PUn, uint8_t adr);
-void set_GPIO_PULL_UP_RESISTOR_REGISTER_B(uint8_t PUn, uint8_t adr);
-uint8_t get_GPIO_PULL_UP_RESISTOR_REGISTER_A(uint8_t adr);
-uint8_t get_GPIO_PULL_UP_RESISTOR_REGISTER_B(uint8_t adr);
-uint8_t get_INTERRUPT_FLAG_REGISTER_A(uint8_t adr);
-uint8_t get_INTERRUPT_FLAG_REGISTER_B(uint8_t adr);
-uint8_t get_INTERRUPT_CAPTURED_VALUE_A(uint8_t adr);
-uint8_t get_INTERRUPT_CAPTURED_VALUE_B(uint8_t adr);
-void set_GENERAL_PURPOSE_I_O_PORT_REGISTER_A(uint8_t adr, uint8_t pinSet);
-void set_GENERAL_PURPOSE_I_O_PORT_REGISTER_B(uint8_t adr, uint8_t pinSet);
-uint8_t get_GENERAL_PURPOSE_I_O_PORT_REGISTER_A(uint8_t adr);
-uint8_t get_GENERAL_PURPOSE_I_O_PORT_REGISTER_B(uint8_t adr);
-void set_OUTPUT_LATCH_REGISTER_0_A(uint8_t adr, uint8_t pinSet);
-void set_OUTPUT_LATCH_REGISTER_0_B(uint8_t adr, uint8_t pinSet);
-uint8_t get_OUTPUT_LATCH_REGISTER_0_A(uint8_t adr);
-uint8_t get_OUTPUT_LATCH_REGISTER_0_B(uint8_t adr);
+void setRegData(uint8_t reg, uint8_t dat);
+uint8_t getRegData(uint8_t reg);
+
+void set_I_O_DIRECTION_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
+uint8_t get_I_O_DIRECTION_REGISTER(uint8_t adr, uint8_t gp_n);
+void set_INPUT_POLARITY_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
+uint8_t get_INPUT_POLARITY_REGISTER(uint8_t adr, uint8_t gp_n);
+void set_INTERRUPT_ON_CHANGE_PINS(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
+uint8_t get_INTERRUPT_ON_CHANGE_PINS(uint8_t adr, uint8_t gp_n);
+void set_DEFAULT_VALUE_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
+uint8_t get_DEFAULT_VALUE_REGISTER(uint8_t adr, uint8_t gp_n);
+void set_INTERRUPT_ON_CHANGE_CONTROL_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
+uint8_t get_INTERRUPT_ON_CHANGE_CONTROL_REGISTER(uint8_t adr, uint8_t gp_n);
+void set_I_O_EXPANDER_CONFIGURATION_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t configBits);
+uint8_t get_I_O_EXPANDER_CONFIGURATION_REGISTER(uint8_t adr, uint8_t gp_n);
+void set_GPIO_PULL_UP_RESISTOR_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
+uint8_t get_GPIO_PULL_UP_RESISTOR_REGISTER(uint8_t adr, uint8_t gp_n);
+uint8_t get_INTERRUPT_FLAG_REGISTER(uint8_t adr, uint8_t gp_n);
+uint8_t get_INTERRUPT_CAPTURED_VALUE(uint8_t adr, uint8_t gp_n);
+void set_GENERAL_PURPOSE_I_O_PORT_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
+uint8_t get_GENERAL_PURPOSE_I_O_PORT_REGISTER(uint8_t adr, uint8_t gp_n);
+void set_OUTPUT_LATCH_REGISTER_0(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
+uint8_t get_OUTPUT_LATCH_REGISTER_0(uint8_t adr, uint8_t gp_n);
 
 
 #endif // MCP23017_H

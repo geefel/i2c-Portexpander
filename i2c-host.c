@@ -20,13 +20,7 @@
 #include "printS.h"
 #include "pin.h"
 
-uint8_t adr;
-
-#define LED_PIN PINDEF(D, 2)
-
 #define DLY_ADD 6 +20
-
-
 
 void startI2c();
 void stopI2c();
@@ -36,6 +30,7 @@ uint8_t readACK();
 void sendI2cData(uint8_t *data);
 void getI2cData(uint8_t *data);
 
+#define LED_PIN PINDEF(D, 2)
 void led() {
     setPin(LED_PIN);
     clrPin(LED_PIN);
@@ -133,11 +128,12 @@ void sendI2cData(uint8_t* data) {
 	}
 }
 
+//Die Adresse wird in data[0] erwartet in den bits[7...1], bit[0] wird hier für r/w gesetzt
 void sendDataToClient(uint8_t *data, uint8_t anzData) {
     uint8_t i;
-	adr = (data[0] << 1) + 0;   //rw = 0: schreiben zum Client 
+	data[0] += 0;   //rw = 0: schreiben zum Client 
 	startI2c();
-    sendI2cData(&adr);
+    sendI2cData(&data[0]);
     readACK();
     
 	for (i = 1; i < anzData - 1; ++i) {
@@ -149,14 +145,15 @@ void sendDataToClient(uint8_t *data, uint8_t anzData) {
 	stopI2c();
 }
 
+//Die Adresse wird in data[0] erwartet in den bits[7...1], bit[0] wird hier für r/w gesetzt
 void getDataFromClient(uint8_t *data, uint8_t anzData) {
 	uint8_t bitNr;
 	uint8_t byteNr;
 	uint8_t maske;
-	adr = (data[0] << 1) + 1;   //rw = 1: lesen vom Client
+	data[0] += 1;   //rw = 1: lesen vom Client
 	
 	startI2c();
-    sendI2cData(&adr);
+    sendI2cData(&data[0]);
     sendACK();                 //LOW
     
     clrPin(SDA_PIN);
