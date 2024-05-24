@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-//IOCON.BANK = 0
+//IOCON.BANK = 0 Adressen
 #define 	IODIRA_IOCON_BANK_0      0x00
 #define 	IODIRB_IOCON_BANK_0      0x01
 #define 	IPOLA_IOCON_BANK_0       0x02
@@ -26,7 +26,7 @@
 #define 	OLATA_IOCON_BANK_0       0x14
 #define 	OLATB_IOCON_BANK_0       0x15
 
-//IOCON.BANK = 1
+//IOCON.BANK = 1 Adressen
 #define 	IODIRA_IOCON_BANK_1      0x00
 #define 	IPOLA_IOCON_BANK_1       0x01
 #define 	GPINTENA_IOCON_BANK_1	 0x02
@@ -49,96 +49,7 @@
 #define 	GPIOB_IOCON_BANK_1       0x19
 #define 	OLATB_IOCON_BANK_1       0x1A
 
-#define		IO0     0
-#define		IO1     1
-#define		IO2     2
-#define		IO3     3
-#define		IO4     4
-#define		IO5     5
-#define		IO6     6
-#define		IO7     7
-			
-#define		IP0     0
-#define		IP1     1
-#define		IP2     2
-#define		IP3     3
-#define		IP4     4
-#define		IP5     5
-#define		IP6     6
-#define		IP7     7
-			
-#define		GPINT0	0
-#define		GPINT1	1
-#define		GPINT2	2
-#define		GPINT3	3
-#define		GPINT4	4
-#define		GPINT5	5
-#define		GPINT6	6
-#define		GPINT7	7
-			
-#define		DEF0	0
-#define		DEF1	1
-#define		DEF2	2
-#define		DEF3	3
-#define		DEF4	4
-#define		DEF5	5
-#define		DEF6	6
-#define		DEF7	7
-			
-#define		IOC0	0
-#define		IOC1	1
-#define		IOC2	2
-#define		IOC3	3
-#define		IOC4	4
-#define		IOC5	5
-#define		IOC6	6
-#define		IOC7	7
-			
-#define		PU0     0
-#define		PU1     1
-#define		PU2     2
-#define		PU3     3
-#define		PU4     4
-#define		PU5     5
-#define		PU6     6
-#define		PU7     7
-			
-#define		INT0	0
-#define		INT1	1
-#define		INT2	2
-#define		INT3	3
-#define		INT4	4
-#define		INT5	5
-#define		INT6	6
-#define		INT7	7
-			
-#define		ICP0	0
-#define		ICP1	1
-#define		ICP2	2
-#define		ICP3	3
-#define		ICP4	4
-#define		ICP5	5
-#define		ICP6	6
-#define		ICP7	7
-			
-#define		GP0     0
-#define		GP1     1
-#define		GP2     2
-#define		GP3     3
-#define		GP4     4
-#define		GP5     5
-#define		GP6     6
-#define		GP7     7
-			
-#define		OL0     0
-#define		OL1     1
-#define		OL2     2
-#define		OL3     3
-#define		OL4     4
-#define		OL5     5
-#define		OL6     6
-#define		OL7     7
-
+//Flags in IOCON-Register
 #define		INTPOL	1
 #define		ODR     2
 #define		HAEN	3
@@ -147,7 +58,38 @@
 #define		MIRROR	6
 #define		BANK	7
 
-enum regData {
+//Expandernamen, -adressen
+enum expanderAdr {
+    expanderAdr_0 = 0,
+    expanderAdr_1,
+    expanderAdr_2,
+    expanderAdr_3,
+    expanderAdr_4,
+    expanderAdr_5,
+    expanderAdr_6,
+    expanderAdr_7
+};
+
+//
+enum port_AB {
+    port_A = 0,
+    port_B
+};
+
+//bit-Stellen
+enum bitStelle {
+    bit_0 = 0,
+    bit_1,
+    bit_2,
+    bit_3,
+    bit_4,
+    bit_5,
+    bit_6,
+    bit_7,
+};
+
+//für regData[] Registeralias
+enum regDataRegisterAlias {
     IODIRA = 0,
     IODIRB,
     IPOLA,
@@ -171,31 +113,174 @@ enum regData {
     OLATB
 };
 
-void setupMCP23N17(uint8_t bnk);
+//Die Adressen müssen immer bei 0 anfangen und dann fortlaufend sein!
+#define EXPANDER_NUM 1
 
-void setRegData(uint8_t reg, uint8_t dat);
-uint8_t getRegData(uint8_t reg);
+void setupMCP23N17();
 
-void set_I_O_DIRECTION_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
-uint8_t get_I_O_DIRECTION_REGISTER(uint8_t adr, uint8_t gp_n);
-void set_INPUT_POLARITY_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
-uint8_t get_INPUT_POLARITY_REGISTER(uint8_t adr, uint8_t gp_n);
-void set_INTERRUPT_ON_CHANGE_PINS(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
-uint8_t get_INTERRUPT_ON_CHANGE_PINS(uint8_t adr, uint8_t gp_n);
-void set_DEFAULT_VALUE_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
-uint8_t get_DEFAULT_VALUE_REGISTER(uint8_t adr, uint8_t gp_n);
-void set_INTERRUPT_ON_CHANGE_CONTROL_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
-uint8_t get_INTERRUPT_ON_CHANGE_CONTROL_REGISTER(uint8_t adr, uint8_t gp_n);
-void set_I_O_EXPANDER_CONFIGURATION_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t configBits);
-uint8_t get_I_O_EXPANDER_CONFIGURATION_REGISTER(uint8_t adr, uint8_t gp_n);
-void set_GPIO_PULL_UP_RESISTOR_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
-uint8_t get_GPIO_PULL_UP_RESISTOR_REGISTER(uint8_t adr, uint8_t gp_n);
-uint8_t get_INTERRUPT_FLAG_REGISTER(uint8_t adr, uint8_t gp_n);
-uint8_t get_INTERRUPT_CAPTURED_VALUE(uint8_t adr, uint8_t gp_n);
-void set_GENERAL_PURPOSE_I_O_PORT_REGISTER(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
-uint8_t get_GENERAL_PURPOSE_I_O_PORT_REGISTER(uint8_t adr, uint8_t gp_n);
-void set_OUTPUT_LATCH_REGISTER_0(uint8_t adr, uint8_t gp_n, uint8_t pinSet);
-uint8_t get_OUTPUT_LATCH_REGISTER_0(uint8_t adr, uint8_t gp_n);
+void setRegData(uint8_t adr, uint8_t reg, uint8_t dat);
+uint8_t getRegData(uint8_t adr, uint8_t reg);
+
+/* 
+ * IODIR    POR = 0b111 1111
+ * adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * gpio_ab: 0 = GPA[0..7], 1 = GPB[0..7]
+ * pinSet: Byte das in Register geschrieben wird, beschreiben von einzelnen bits ist nicht vorgesehen
+ * Controls the direction of the data I/O.
+ * 1 = Pin is configured as an input.
+ * 0 = Pin is configured as an output.
+ * For MCP23017, IO7 must be set to "0" (output).
+ */
+void set_I_O_DIRECTION_REGISTER(uint8_t adr, uint8_t gpio_ab, uint8_t pinSet);
+uint8_t get_I_O_DIRECTION_REGISTER(uint8_t adr, uint8_t gpio_ab);
+
+/* IPOL POR = 0b0000 0000
+ * adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * gpio_ab: 0 = GPA[0..7], 1 = GPB[0..7]
+ * pinSet: Byte das in Register geschrieben wird, beschreiben von einzelnen bits ist nicht vorgesehen
+ * If a bit is set, the corresponding GPIO register bit will
+ * reflect the inverted value on the pin.
+ * 1 = GPIO register bit reflects the opposite logic state of the input pin.
+ * 0 = GPIO register bit reflects the same logic state of the input pin.
+ */
+void set_INPUT_POLARITY_REGISTER(uint8_t adr, uint8_t gpio_ab, uint8_t pinSet);
+uint8_t get_INPUT_POLARITY_REGISTER(uint8_t adr, uint8_t gpio_ab);
+
+/* GPINTEN POR = 0b0000 0000
+ * #adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * gpio_ab: 0 = GPA[0..7], 1 = GPB[0..7]
+ * pinSet: Byte das in Register geschrieben wird, beschreiben von einzelnen bits ist nicht vorgesehen
+ * If a bit is set, the corresponding pin is enabled for
+ * interrupt-on-change.
+ * 1 = Enables GPIO input pin for interrupt-on-change event.
+ * 0 = Disables GPIO input pin for interrupt-on-change event.
+ */
+void set_INTERRUPT_ON_CHANGE_PINS(uint8_t adr, uint8_t gpio_ab, uint8_t pinSet);
+uint8_t get_INTERRUPT_ON_CHANGE_PINS(uint8_t adr, uint8_t gpio_ab);
+
+/* DEFVAL POR = 0b0000 0000
+ * adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * gpio_ab: 0 = GPA[0..7], 1 = GPB[0..7]
+ * pinSet: Byte das in Register geschrieben wird, beschreiben von einzelnen bits ist nicht vorgesehen
+ * The default comparison value is configured in the
+ * DEFVAL register. If enabled (via GPINTEN and
+ * INTCON) to compare against the DEFVAL register, an
+ * opposite value on the associated pin will cause an
+ * interrupt to occur.
+ * Sets the compare value for pins configured for interrupt-on-change from defaults. Refer to INTCON.
+ * If the associated pin level is the opposite from the register bit, an interrupt occurs. Refer to INTCON and GPINTEN.
+ */
+void set_DEFAULT_VALUE_REGISTER(uint8_t adr, uint8_t gpio_ab, uint8_t pinSet);
+uint8_t get_DEFAULT_VALUE_REGISTER(uint8_t adr, uint8_t gpio_ab);
+
+/* INTCON POR = 0b0000 0000
+ * adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * gpio_ab: 0 = GPA[0..7], 1 = GPB[0..7]
+ * pinSet: Byte das in Register geschrieben wird, beschreiben von einzelnen bits ist nicht vorgesehen
+ * The INTCON register controls how the associated pin
+ * value is compared for the interrupt-on-change feature.
+ * 1 = Pin value is compared against the associated bit in the DEFVAL register.
+ * 0 = Pin value is compared against the previous pin value.
+ */
+void set_INTERRUPT_ON_CHANGE_CONTROL_REGISTER(uint8_t adr, uint8_t gpio_ab, uint8_t pinSet);
+uint8_t get_INTERRUPT_ON_CHANGE_CONTROL_REGISTER(uint8_t adr, uint8_t gpio_ab);
+
+/* IOCON POR = 0b0000 0000
+ * adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * gpio_ab: 0 = GPA[0..7], 1 = GPB[0..7]
+ * pinSet: Byte das in Register geschrieben wird, beschreiben von einzelnen bits ist nicht vorgesehen
+ * The IOCON register contains several bits for configuring the device:
+ * BANK: Controls how the registers are addressed
+ * 1 = The registers associated with each port are separated into different banks.
+ * 0 = The registers are in the same bank (addresses are sequential).
+ * MIRROR: INT Pins Mirror bit
+ * 1 = The INT pins are internally connected
+ * 0 = The INT pins are not connected. INTA is associated with PORTA and INTB is associated with PORTB
+ * SEQOP: Sequential Operation mode bit
+ * 1 = Sequential operation disabled, address pointer does not increment.
+ * 0 = Sequential operation enabled, address pointer increments.
+ * DISSLW: Slew Rate control bit for SDA output
+ * 1 = Slew rate disabled
+ * 0 = Slew rate enabled
+ * HAEN: Hardware Address Enable bit (MCP23S17 only) On the MCP23017 always enabled
+ * 1 = Enables the MCP23S17 address pins.
+ * 0 = Disables the MCP23S17 address pins.
+ * ODR: Configures the INT pin as an open-drain output
+ * 1 = Open-drain output (overrides the INTPOL bit.)
+ * 0 = Active driver output (INTPOL bit sets the polarity.)
+ * INTPOL: This bit sets the polarity of the INT output pin
+ * 1 = Active-high
+ * 0 = Active-low
+ * bit 0 Unimplemented: Read as ‘0’
+ */
+void set_I_O_EXPANDER_CONFIGURATION_REGISTER(uint8_t adr, uint8_t gpio_ab, uint8_t configBits);
+uint8_t get_I_O_EXPANDER_CONFIGURATION_REGISTER(uint8_t adr, uint8_t gpio_ab);
+
+/* GPPU POR = 0b0000 0000
+ * adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * gpio_ab: 0 = GPA[0..7], 1 = GPB[0..7]
+ * pinSet: Byte das in Register geschrieben wird, beschreiben von einzelnen bits ist nicht vorgesehen
+ * The GPPU register controls the pull-up resistors for the
+ * port pins. If a bit is set and the corresponding pin is
+ * configured as an input, the corresponding port pin is
+ * internally pulled up with a 100 kOhm resistor.
+ * 1 = Pull-up enabled
+ * 0 = Pull-up disabled
+ */
+void set_GPIO_PULL_UP_RESISTOR_REGISTER(uint8_t adr, uint8_t gpio_ab, uint8_t pinSet);
+uint8_t get_GPIO_PULL_UP_RESISTOR_REGISTER(uint8_t adr, uint8_t gpio_ab);
+
+/* INTF POR = 0b0000 0000
+ * adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * gpio_ab: 0 = GPA[0..7], 1 = GPB[0..7]
+ * The INTF register reflects the interrupt condition on the
+ * port pins of any pin that is enabled for interrupts via the
+ * GPINTEN register.
+ * 1 = Pin caused interrupt.
+ * 0 = Interrupt not pending
+ */
+uint8_t get_INTERRUPT_FLAG_REGISTER(uint8_t adr, uint8_t gpio_ab);
+
+/* INTCAP POR = 0bxxxx xxxx
+ * adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * gpio_ab: 0 = GPA[0..7], 1 = GPB[0..7]
+ * The INTCAP register captures the GPIO port value at
+ * the time the interrupt occurred. The register is
+ * read-only and is updated only when an interrupt
+ * occurs. The register remains unchanged until the
+ * interrupt is cleared via a read of INTCAP or GPIO.
+ * 1 = Logic-high
+ * 0 = Logic-low
+ */
+uint8_t get_INTERRUPT_CAPTURED_VALUE(uint8_t adr, uint8_t gpio_ab);
+
+/* GPIO POR = 0b0000 0000
+ * adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * gpio_ab: 0 = GPA[0..7], 1 = GPB[0..7]
+ * pinSet: Byte das in Register geschrieben wird, beschreiben von einzelnen bits ist nicht vorgesehen
+ * The GPIO register reflects the value on the port.
+ * Reading from this register reads the port. Writing to this
+ * register modifies the Output Latch (OLAT) register.
+ * 1 = Logic-high
+ * 0 = Logic-low
+ */
+void set_GENERAL_PURPOSE_I_O_PORT_REGISTER(uint8_t adr, uint8_t gpio_ab, uint8_t pinSet);
+uint8_t get_GENERAL_PURPOSE_I_O_PORT_REGISTER(uint8_t adr, uint8_t gpio_ab);
+
+/* OLAT POR = 0b0000 0000
+ * adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * gpio_ab: 0 = GPA[0..7], 1 = GPB[0..7]
+ * pinSet: Byte das in Register geschrieben wird, beschreiben von einzelnen bits ist nicht vorgesehen
+ * The OLAT register provides access to the output
+ * latches. A read from this register results in a read of the
+ * OLAT and not the port itself. A write to this register
+ * modifies the output latches that modifies the pins
+ * configured as outputs.
+ * 1 = Logic-high
+ * 0 = Logic-low
+ */
+void set_OUTPUT_LATCH_REGISTER_0(uint8_t adr, uint8_t gpio_ab, uint8_t pinSet);
+uint8_t get_OUTPUT_LATCH_REGISTER_0(uint8_t adr, uint8_t gpio_ab);
 
 
 #endif // MCP23017_H
