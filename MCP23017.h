@@ -1,3 +1,44 @@
+/*
+ *                MCP23017
+ *                +--/\--+
+ *    GPB0 i/o   1|      |28    o GPA7
+ *    GPB1 i/o   2|      |27  i/o GPA6
+ *    GPB2 i/o   3|      |26  i/o GPA5
+ *    GPB3 i/o   4|      |25  i/o GPA4
+ *    GPB4 i/o   5|      |24  i/o GPA3
+ *    GPB5 i/o   6|      |23  i/o GPA2
+ *    GPB6 i/o   7|      |22  i/o GPA1
+ *    GPB7   o   8|      |21  i/o GPA0
+ *    Vdd  i     9|      |20    o INTA
+ *    Vss  i    10|      |19    o INTB
+ *    NC        11|      |18  i  /RESET
+ *    SCK  i    12|      |17  i   A2
+ *    SDA  i/o  13|      |16  i   A1
+ *    NC        14|      |15  i   A0
+ *                +------+
+ * 
+ * 
+ *                MCP23S17
+ *                +--/\--+
+ *    GPB0 i/o   1|      |28  i/o GPA7
+ *    GPB1 i/o   2|      |27  i/o GPA6
+ *    GPB2 i/o   3|      |26  i/o GPA5
+ *    GPB3 i/o   4|      |25  i/o GPA4
+ *    GPB4 i/o   5|      |24  i/o GPA3
+ *    GPB5 i/o   6|      |23  i/o GPA2
+ *    GPB6 i/o   7|      |22  i/o GPA1
+ *    GPB7 i/o   8|      |21  i/o GPA0
+ *    Vdd  i     9|      |20    o INTA
+ *    Vss  i    10|      |19    o INTB
+ *    /CS  i    11|      |18  i  /RESET
+ *    SCK  i    12|      |17  i   A2
+ *    SI   i    13|      |16  i   A1
+ *    SO     o  14|      |15  i   A0
+ *                +------+
+ *
+ * A0..2, /RESET must be externally biased.
+ */
+
 #ifndef MCP23017_H
 #define MCP23017_H
 
@@ -260,7 +301,8 @@ uint8_t get_INTERRUPT_CAPTURED_VALUE(uint8_t adr, uint8_t gpio_ab);
  * pinSet: Byte das in Register geschrieben wird, beschreiben von einzelnen bits ist nicht vorgesehen
  * The GPIO register reflects the value on the port.
  * Reading from this register reads the port. Writing to this
- * register modifies the Output Latch (OLAT) register.
+ * register modifies the Output Latch (OLAT) register. 
+ * Status der wirklichen Pins (kann anders sein als das Register).
  * 1 = Logic-high
  * 0 = Logic-low
  */
@@ -275,7 +317,8 @@ uint8_t get_GENERAL_PURPOSE_I_O_PORT_REGISTER(uint8_t adr, uint8_t gpio_ab);
  * latches. A read from this register results in a read of the
  * OLAT and not the port itself. A write to this register
  * modifies the output latches that modifies the pins
- * configured as outputs.
+ * configured as outputs. 
+ * Status des programmierten Registers (kann anders sein als die wirklichen Pins).
  * 1 = Logic-high
  * 0 = Logic-low
  */

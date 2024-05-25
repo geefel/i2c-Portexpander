@@ -1,59 +1,3 @@
-/*
- *                MCP23017
- *                +--/\--+
- *    GPB0 i/o   1|      |28    o GPA7
- *    GPB1 i/o   2|      |27  i/o GPA6
- *    GPB2 i/o   3|      |26  i/o GPA5
- *    GPB3 i/o   4|      |25  i/o GPA4
- *    GPB4 i/o   5|      |24  i/o GPA3
- *    GPB5 i/o   6|      |23  i/o GPA2
- *    GPB6 i/o   7|      |22  i/o GPA1
- *    GPB7   o   8|      |21  i/o GPA0
- *    Vdd  i     9|      |20    o INTA
- *    Vss  i    10|      |19    o INTB
- *    NC        11|      |18  i  /RESET
- *    SCK  i    12|      |17  i   A2
- *    SDA  i/o  13|      |16  i   A1
- *    NC        14|      |15  i   A0
- *                +------+
- * 
- * 
- *                MCP23S17
- *                +--/\--+
- *    GPB0 i/o   1|      |28  i/o GPA7
- *    GPB1 i/o   2|      |27  i/o GPA6
- *    GPB2 i/o   3|      |26  i/o GPA5
- *    GPB3 i/o   4|      |25  i/o GPA4
- *    GPB4 i/o   5|      |24  i/o GPA3
- *    GPB5 i/o   6|      |23  i/o GPA2
- *    GPB6 i/o   7|      |22  i/o GPA1
- *    GPB7 i/o   8|      |21  i/o GPA0
- *    Vdd  i     9|      |20    o INTA
- *    Vss  i    10|      |19    o INTB
- *    /CS  i    11|      |18  i  /RESET
- *    SCK  i    12|      |17  i   A2
- *    SI   i    13|      |16  i   A1
- *    SO     o  14|      |15  i   A0
- *                +------+
- *
- * A0..2, /RESET must be externally biased.
- * adr ist eine Zahl 0 - 7 wie sie in A0..2 dargestellt wird 
- * 
- * BYTE MODE AND SEQUENTIAL MODE
- * Byte Mode: keine automatische Zeigerverschiebung zum nächsten Regiester oder automatischer Wechsel zw. zwei korepondierenden A- und B-Registern.
- * Sequential Mode: automatische Zeigerverschiebung zum nächsten Regiester
- * Stichpunktartiges Ansprechen von einzelnen Registern unterbricht die Reaktion von den beiden Modis.
- * 
- * I2C
- * START
- * Device Opcode: 0 1 0 0  A2 A1 A0 r/w
- * ACK from Device
- * Register Adr: 8-bit MSF
- * ACK from Device
- * Data: 8-bit
- * STOP
- */
-
 #include "MCP23017.h"
 #include "i2c-host.h"
 
@@ -80,25 +24,33 @@ uint8_t getRegData(uint8_t adr, uint8_t reg) {
 }
 
 void writeToMCP23N17(uint8_t adr, uint8_t reg, uint8_t pinSet, uint8_t regDataIndex) {
-    uint8_t anz = 3;
-    uint8_t dat[anz];
-    dat[0] = 0b01000000 + (adr << 1);
-    dat[1] = reg;
-    dat[2] = pinSet;
     setRegData(adr, regDataIndex, pinSet);
-    sendDataToClient(dat, anz);
+    startI2c();
+    sendI2cData(0b01000000 + (adr << 1) + 0);   //rw = 0: schreiben zum Client)
+    readACK();
+    sendI2cData(reg);
+    readACK();
+    sendI2cData(pinSet);
+    readACK();
+	stopI2c();
 }
 
 uint8_t readFromMCP23N17(uint8_t adr, uint8_t reg, uint8_t regDataIndex) {
-    uint8_t anz = 3;
-    uint8_t dat[anz];
-    dat[0] = 0b01000000 + (adr << 1);
-    dat[1] = reg;
-    dat[2] = 0;
-
-    getDataFromClient(dat, anz);
-    setRegData(adr, regDataIndex, dat[2]);
-    return dat[2];
+    uint8_t erg;
+    startI2c();
+    sendI2cData(0b01000000 + (adr << 1) + 0);   //rw = 0: schreiben zum Client)
+    readACK();
+    sendI2cData(reg);
+    readACK();
+    startI2c();
+    sendI2cData(0b01000000 + (adr << 1) + 1);   //rw = 1: lesen vom Client)
+    readACK();
+    erg = getI2cData();
+    sendACK();
+    stopI2c();    
+    
+    setRegData(adr, regDataIndex, erg);
+    return erg;
 }
 
 void set_I_O_DIRECTION_REGISTER(uint8_t adr, uint8_t gpio_ab, uint8_t pinSet) {

@@ -7,8 +7,14 @@
 #define SDA_PIN PINDEF(D, 5)
 #define SCL_PIN PINDEF(D, 6)
 
+void startI2c();
+void stopI2c();
+void sendACK();
+void sendNACK();
+uint8_t readACK();
+void sendI2cData(uint8_t data);
+uint8_t getI2cData();
+
 void setupI2cSoftHost();
-void sendDataToClient(uint8_t *data, uint8_t anzData);
-void getDataFromClient(uint8_t *data, uint8_t anzData);
 
 #endif	//I2S_HOST_H
