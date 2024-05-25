@@ -1,4 +1,4 @@
- #ifndef I2S_HOST_H
+#ifndef I2S_HOST_H
 #define I2S_HOST_H
 
 #include <stdint.h>
@@ -6,6 +6,8 @@
 
 #define SDA_PIN PINDEF(D, 5)
 #define SCL_PIN PINDEF(D, 6)
+
+#define DLY_ADD 10  //DLY_ADD = 0: 100 kHz i2c-clock, 1: 3 F_CPU-Cyclen mehr, 2: 6 F_CPU-Cyclen mehr usw. 
 
 void startI2c();
 void stopI2c();

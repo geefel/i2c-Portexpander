@@ -1,25 +1,21 @@
-//_delay_loop_1(count);//cy = 9 + count * 3   80cy für 100kHz
-
 #include "i2c-host.h"
 #include <util/delay.h>
 #include "printS.h"
 #include "pin.h"
 
-#define DLY_ADD 6 + 20
-
 void setupI2cSoftHost() {
 	setOutput(SCL_PIN);
 	setPin(SCL_PIN);
-	
     setOutput(SDA_PIN);
 }
 
 void startI2c() {
+    _delay_loop_1(25 + DLY_ADD);
     setOutput(SDA_PIN);
     setPin(SCL_PIN);
-    _delay_loop_1(25 + DLY_ADD);
+    _delay_loop_1(10);
 	clrPin(SDA_PIN);
-    _delay_loop_1(25 + DLY_ADD);
+    _delay_loop_1(15 + DLY_ADD);
     clrPin(SCL_PIN);
 }
 
@@ -34,8 +30,8 @@ void stopI2c() {
 
 void sendACK() {
     _delay_loop_1(5 + DLY_ADD / 2);
-    setOutput(SDA_PIN);                 //| 14c 0,875 us
-    clrPin(SDA_PIN);                    //| 
+    setOutput(SDA_PIN);
+    clrPin(SDA_PIN);
     _delay_loop_1(16 + DLY_ADD / 2);
     
     setPin(SCL_PIN);
@@ -45,8 +41,8 @@ void sendACK() {
 
 void sendNACK() {
     _delay_loop_1(5 + DLY_ADD / 2);
-    setOutput(SDA_PIN);                 //| 14c 0,875 us
-    setPin(SDA_PIN);                    //| 
+    setOutput(SDA_PIN);
+    setPin(SDA_PIN);
     _delay_loop_1(16 + DLY_ADD / 2);
     
     setPin(SCL_PIN);
@@ -69,7 +65,6 @@ uint8_t readACK() {
     return ack;
 }
 
-//Clock low, Datum setzen, Clock high, Clock low, Datum setzen, ...
 void sendI2cData(uint8_t data) {
 	uint8_t maske = 0b10000000;
 	setOutput(SDA_PIN);

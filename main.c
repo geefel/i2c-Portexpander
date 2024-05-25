@@ -12,7 +12,7 @@ uint8_t varA;
     setupMCP23N17();
     varA = getRegData(expanderAdr_0, IOCON) | (1 << SEQOP) | (1 << BANK);
     set_I_O_EXPANDER_CONFIGURATION_REGISTER(expanderAdr_0, port_B, varA);
-    varA = getRegData(expanderAdr_0, IOCON) | (1 << bit_0);
+    varA = getRegData(expanderAdr_0, IOCON) | (1 << bit_0) | (1 << bit_1);
     set_I_O_DIRECTION_REGISTER(expanderAdr_0, port_B, varA);
 
     while(1) {

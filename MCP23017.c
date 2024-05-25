@@ -25,6 +25,7 @@ uint8_t getRegData(uint8_t adr, uint8_t reg) {
 
 void writeToMCP23N17(uint8_t adr, uint8_t reg, uint8_t pinSet, uint8_t regDataIndex) {
     setRegData(adr, regDataIndex, pinSet);
+    
     startI2c();
     sendI2cData(0b01000000 + (adr << 1) + 0);   //rw = 0: schreiben zum Client)
     readACK();
@@ -37,6 +38,7 @@ void writeToMCP23N17(uint8_t adr, uint8_t reg, uint8_t pinSet, uint8_t regDataIn
 
 uint8_t readFromMCP23N17(uint8_t adr, uint8_t reg, uint8_t regDataIndex) {
     uint8_t erg;
+    
     startI2c();
     sendI2cData(0b01000000 + (adr << 1) + 0);   //rw = 0: schreiben zum Client)
     readACK();
