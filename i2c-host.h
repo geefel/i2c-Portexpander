@@ -4,10 +4,10 @@
 #include <stdint.h>
 #include "pin.h"
 
-#define SDA_PIN PINDEF(D, 5)
-#define SCL_PIN PINDEF(D, 6)
+#define SDA_PIN PINDEF(C, 4)
+#define SCL_PIN PINDEF(C, 5)
 
-#define DLY_ADD 10  //DLY_ADD = 0: 100 kHz i2c-clock, 1: 3 F_CPU-Cyclen mehr, 2: 6 F_CPU-Cyclen mehr usw. 
+#define DLY_ADD 2  //DLY_ADD = 0: 100 kHz i2c-clock, 1: 3 F_CPU-Cyclen mehr, 2: 6 F_CPU-Cyclen mehr usw. 
 
 void startI2c();
 void stopI2c();

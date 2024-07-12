@@ -159,6 +159,13 @@ enum regDataRegisterAlias {
 
 void setupMCP23N17();
 
+/*
+ * regData ist der Inhalt aller Register, gespeichert ausserhalb des ICs
+ * das Speichern erfolgt automatischen
+ * adr: eine Zahl 0 - 7 wie sie in A0..2 dargestellt wurde
+ * reg: ein Register des ICs
+ * dat: Daten des Registers
+ */
 void setRegData(uint8_t adr, uint8_t reg, uint8_t dat);
 uint8_t getRegData(uint8_t adr, uint8_t reg);
 

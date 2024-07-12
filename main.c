@@ -7,17 +7,26 @@
 
 int main() {
 uint8_t varA;
+uint8_t regADir1, regADir2, regBDir;
+    regADir1 = 0;
+    regADir1 = (1 << bit_0) | (1 << bit_1) | (1 << bit_2);
+    regADir2 = 0;
+    regADir2 = (1 << bit_4) | (1 << bit_5);
+    regBDir = 0; //alle Ausgang
+    
     initUartHW(500000UL);
     setupI2cSoftHost();
     setupMCP23N17();
-    varA = getRegData(expanderAdr_0, IOCON) | (1 << SEQOP) | (1 << BANK);
-    set_I_O_EXPANDER_CONFIGURATION_REGISTER(expanderAdr_0, port_B, varA);
-    varA = getRegData(expanderAdr_0, IOCON) | (1 << bit_0) | (1 << bit_1);
-    set_I_O_DIRECTION_REGISTER(expanderAdr_0, port_B, varA);
-
+    
+    set_I_O_DIRECTION_REGISTER(expanderAdr_0, port_B, regBDir);
+    setRegData(expanderAdr_0, port_B, 15);
     while(1) {
-        _delay_ms(1000);
-            printS("%d\n", get_GENERAL_PURPOSE_I_O_PORT_REGISTER(expanderAdr_0, port_B));
+        //printS("%d\n", get_GENERAL_PURPOSE_I_O_PORT_REGISTER(expanderAdr_0, port_B));
+        for (int i = 0; i < 6; ++i) {
+            _delay_ms(100);
+            //setRegData(expanderAdr_0, port_B, (1 << i));
+        }
     }
 	return 0;
 }
+ 

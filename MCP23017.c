@@ -9,8 +9,9 @@ uint8_t readFromMCP23N17(uint8_t adr, uint8_t reg, uint8_t regDataIndex);
 //Startkonditionen hinzufügen
 void setupMCP23N17() {
     for (uint8_t i = 0; i < EXPANDER_NUM; ++i) {
-        regData[i][IODIRA] = (1 << bit_0) & (1 << bit_1) & (1 << bit_2) & (1 << bit_3) & (1 << bit_4) & (1 << bit_5) & (1 << bit_6)/* & (1 << bit_7)*/;    //pin7 immer Out bei MCP23017 (nicht bei MCP23S17)
-        regData[i][IODIRB] = 0b01111111;                                                                                                           //pin7 immer Out bei MCP23017 (nicht bei MCP23S17)     
+        regData[i][IODIRA] = (1 << bit_0) & (1 << bit_1) & (1 << bit_2) & (1 << bit_3) 
+				& (1 << bit_4) & (1 << bit_5) & (1 << bit_6)/* & (1 << bit_7)*/;    //pin7 immer Out bei MCP23017 (nicht bei MCP23S17)
+        regData[i][IODIRB] = 0b01111111;                                    //pin7 immer Out bei MCP23017 (nicht bei MCP23S17)     
     }
     
 }
